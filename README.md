@@ -1,24 +1,24 @@
 ## About
 
-This app only for serve REST API, this app is build like instagram model flow.
+This app only for serve REST API Using Laravel 10, this app is build like instagram model flow.
 
 # Features
 
 - Auth
- * Register
- * Login
+ - Register
+ - Login
 - User
- * GET Profile
- * Update Profile
- * Followers / follows Detail
- * Search User
- * Follow / Unfollow
+ - GET Profile
+ - Update Profile
+ - Followers / follows Detail
+ - Search User
+ - Follow / Unfollow
 - Post / Story
- * Create story
+ - Create story
   - Multiple Images, Single Caption
- * Delete story
- * Like / Unlike
- * Comments
+ - Delete story
+ - Like / Unlike
+ - Comments
   - 2 level indent, I use this concept to limit the indentation of hierarchy level from comments
 
 
