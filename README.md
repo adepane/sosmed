@@ -6,6 +6,8 @@ This app only for serve REST API that build like instagram model flow.
 
 This app is build by using **Laravel 10 Framework** with **Repository Design Pattern** and **SOLID principles**.
 
+The login can using email or username
+
 # Features
 
 - Auth
