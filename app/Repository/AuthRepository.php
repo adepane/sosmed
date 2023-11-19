@@ -51,6 +51,9 @@ class AuthRepository implements AuthRepositoryInterface
 
         if ($usernameOrEmail === 'username') {
             $user = $this->userModel->findEmailByUsername($parameters['username']);
+            if (empty($user)) {
+                return $this->helperClass->apiResponse(false, [], 'Your account is not found, register first'); 
+            }
             $email = $user->email;
         }
 
