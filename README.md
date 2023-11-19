@@ -6,7 +6,9 @@ This app only for serve REST API that build like instagram model flow.
 
 This app is build by using **Laravel 10 Framework** with **Repository Design Pattern** and **SOLID principles**.
 
-The login can using email or username
+# Requirement
+
+PHP 8.2++, will not running in below it
 
 # Features
 
@@ -27,6 +29,7 @@ The login can using email or username
   - Comments
     - 2 level indent, I use this concept to limit the indentation of hierarchy level from comments
 
+The login can using email or username
 
 # Postman documentation
 
