@@ -2,18 +2,16 @@
 
 namespace App\Exceptions;
 
-use Throwable;
 use App\Helper\Helper;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Database\QueryException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
-
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
      *
@@ -43,6 +41,6 @@ class Handler extends ExceptionHandler
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        return (new Helper)->apiResponse(false, ['errorCode'=> 401], 'Unauthenticated');
+        return (new Helper)->apiResponse(false, ['errorCode' => 401], 'Unauthenticated');
     }
 }

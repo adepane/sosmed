@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class PostController extends Controller
 {
     public $helperClass;
+
     private PostRepositoryInterface $postRepository;
 
     public function __construct(PostRepositoryInterface $postRepository)
@@ -21,7 +22,7 @@ class PostController extends Controller
     public function getStory(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'postId'  => 'required',
+            'postId' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -33,9 +34,9 @@ class PostController extends Controller
 
     public function addStory(Request $request)
     {
-        
+
         $validator = Validator::make($request->all(), [
-            'image'  => 'array',
+            'image' => 'array',
         ]);
 
         if ($validator->fails()) {
@@ -43,10 +44,10 @@ class PostController extends Controller
         }
 
         foreach ($request->image as $image) {
-            $imageStory = ['image'=> $image];
-            
+            $imageStory = ['image' => $image];
+
             $imageValidator = Validator::make($imageStory, [
-                'image'  => 'required|image',
+                'image' => 'required|image',
             ]);
 
             if ($imageValidator->fails()) {
@@ -55,13 +56,13 @@ class PostController extends Controller
         }
 
         return $this->postRepository->addStory($request->all());
-        
+
     }
 
     public function deleteStory(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'postId'  => 'required',
+            'postId' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -74,7 +75,7 @@ class PostController extends Controller
     public function likeStory(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'postId'  => 'required',
+            'postId' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -87,8 +88,8 @@ class PostController extends Controller
     public function addStoryComment(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'postId'  => 'required',
-            'comment' => 'required'
+            'postId' => 'required',
+            'comment' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -101,7 +102,7 @@ class PostController extends Controller
     public function deleteStoryComment(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'commentId'  => 'required',
+            'commentId' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -110,5 +111,4 @@ class PostController extends Controller
 
         return $this->postRepository->deleteStoryComment($request->all());
     }
-
 }

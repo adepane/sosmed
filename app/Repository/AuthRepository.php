@@ -2,19 +2,20 @@
 
 namespace App\Repository;
 
-use App\Models\User;
 use App\Helper\Helper;
+use App\Interfaces\AuthRepositoryInterface;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use App\Interfaces\AuthRepositoryInterface;
 
 class AuthRepository implements AuthRepositoryInterface
 {
-
     public $userModel;
+
     public $helperClass;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->userModel = new User;
         $this->helperClass = new Helper;
     }
@@ -25,18 +26,20 @@ class AuthRepository implements AuthRepositoryInterface
             DB::beginTransaction();
 
             $user = $this->userModel->create([
-                'first_name'      => $parameters['first_name'],
-                'last_name'      => $parameters['last_name'],
-                'email'     => $parameters['email'],
-                'username'     => $parameters['username'],
-                'password'  => bcrypt($parameters['password'])
+                'first_name' => $parameters['first_name'],
+                'last_name' => $parameters['last_name'],
+                'email' => $parameters['email'],
+                'username' => $parameters['username'],
+                'password' => bcrypt($parameters['password']),
             ]);
 
             DB::commit();
+
             return $this->helperClass->apiResponse(true, $user, 'Your acccount created successfully');
 
         } catch (\Exception $e) {
             DB::rollback();
+
             return $this->helperClass->apiResponse(false, [], $e->getMessage());
         }
     }
@@ -45,8 +48,8 @@ class AuthRepository implements AuthRepositoryInterface
     {
 
         $email = $parameters['username'];
-        
-        if ($usernameOrEmail === "username") {
+
+        if ($usernameOrEmail === 'username') {
             $user = $this->userModel->findEmailByUsername($parameters['username']);
             $email = $user->email;
         }
@@ -57,7 +60,7 @@ class AuthRepository implements AuthRepositoryInterface
             'client_secret' => config('services.passport.secret'),
             'username' => $email,
             'password' => $parameters['password'],
-            'scope' => '*'
+            'scope' => '*',
         ]);
 
         $response = collect($oauth2->json());
@@ -72,10 +75,7 @@ class AuthRepository implements AuthRepositoryInterface
             'accessToken' => $response['access_token'],
             'refreshToken' => $response['refresh_token'],
         ];
-        
+
         return $this->helperClass->apiResponse(true, $reconstructResponse, 'Login success');
     }
-
-
-    
 }

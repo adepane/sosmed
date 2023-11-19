@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Helper\Helper;
+use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use App\Interfaces\UserRepositoryInterface;
 
 class UserController extends Controller
 {
-
     public $helperClass;
+
     private UserRepositoryInterface $userRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository) 
+    public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->helperClass = new Helper;
         $this->userRepository = $userRepository;
@@ -23,7 +23,7 @@ class UserController extends Controller
     public function profile(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'userId'  => 'required',
+            'userId' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -36,10 +36,10 @@ class UserController extends Controller
     public function profileUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone'  => 'numeric',
-            'image'  => 'image',
-            'dob'    => 'date_format:d/m/Y',
-            'username' => 'unique:users,username,'.Auth::id()
+            'phone' => 'numeric',
+            'image' => 'image',
+            'dob' => 'date_format:d/m/Y',
+            'username' => 'unique:users,username,'.Auth::id(),
         ]);
 
         if ($validator->fails()) {
@@ -52,7 +52,7 @@ class UserController extends Controller
     public function getFollower(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'userId'  => 'required',
+            'userId' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -65,7 +65,7 @@ class UserController extends Controller
     public function getFollowing(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'userId'  => 'required',
+            'userId' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -79,12 +79,12 @@ class UserController extends Controller
     {
         return $this->userRepository->userSearch($request->all());
     }
-    
+
     public function userFollow(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'userId'  => 'required',
-            'action'  => 'required',
+            'userId' => 'required',
+            'action' => 'required',
         ]);
 
         if ($validator->fails()) {

@@ -2,28 +2,33 @@
 
 namespace App\Repository;
 
-use App\Models\Post;
-use App\Models\User;
 use App\Helper\Helper;
-use App\Models\PostLike;
-use App\Models\PostImage;
-use App\Models\PostComment;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use App\Interfaces\PostRepositoryInterface;
+use App\Models\Post;
+use App\Models\PostComment;
+use App\Models\PostImage;
+use App\Models\PostLike;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class PostRepository implements PostRepositoryInterface
 {
-
     public $userModel;
+
     public $postModel;
+
     public $postImageModel;
+
     public $postLikeModel;
+
     public $postCommentModel;
+
     public $helperClass;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->userModel = new User;
         $this->postModel = new Post;
         $this->postImageModel = new PostImage;
@@ -36,24 +41,25 @@ class PostRepository implements PostRepositoryInterface
     {
         try {
             $post = $this->postModel
-                        ->select([
-                            'id',
-                            'user_id as userId',
-                            'caption'
-                        ])
-                        ->with('likes.user:id,first_name as firstName,last_name as lastName,username')
-                        ->with('comments.childComments')
-                        ->withCount('likes as likesCount')
-                        ->findOrFail($parameters['postId']);
+                ->select([
+                    'id',
+                    'user_id as userId',
+                    'caption',
+                ])
+                ->with('likes.user:id,first_name as firstName,last_name as lastName,username')
+                ->with('comments.childComments')
+                ->withCount('likes as likesCount')
+                ->findOrFail($parameters['postId']);
 
             return $this->helperClass->apiResponse(true, $post, 'Story upload successfully');
 
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->helperClass->apiResponse(false, [], $e->getMessage());
         }
     }
-    
+
     public function addStory(array $parameters)
     {
         try {
@@ -61,13 +67,13 @@ class PostRepository implements PostRepositoryInterface
 
             $post = $this->postModel->create([
                 'user_id' => Auth::id(),
-                'caption' => $parameters['caption'] ?? NULL
+                'caption' => $parameters['caption'] ?? null,
             ]);
 
             foreach ($parameters['image'] as $image) {
-                $imageName = Str::uuid() . '-' . time() . '.' . $image->getClientOriginalExtension();
+                $imageName = Str::uuid().'-'.time().'.'.$image->getClientOriginalExtension();
                 $image->move(base_path('public/posts'), $imageName);
-                $imagePath = '/posts/' . $imageName;
+                $imagePath = '/posts/'.$imageName;
 
                 $this->postImageModel->create([
                     'post_id' => $post->id,
@@ -84,6 +90,7 @@ class PostRepository implements PostRepositoryInterface
             return $this->helperClass->apiResponse(true, $result, 'Story upload successfully');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->helperClass->apiResponse(false, [], $e->getMessage());
         }
     }
@@ -103,6 +110,7 @@ class PostRepository implements PostRepositoryInterface
             return $this->helperClass->apiResponse(true, [], 'Story has been deleted');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->helperClass->apiResponse(false, [], $e->getMessage());
         }
     }
@@ -113,8 +121,8 @@ class PostRepository implements PostRepositoryInterface
             DB::beginTransaction();
 
             $postQuery = $this->postLikeModel
-                        ->where('post_id', $parameters['postId'])
-                        ->where('user_id', Auth::id());
+                ->where('post_id', $parameters['postId'])
+                ->where('user_id', Auth::id());
 
             $message = '';
             if ($postQuery->exists()) {
@@ -123,7 +131,7 @@ class PostRepository implements PostRepositoryInterface
             } else {
                 $this->postLikeModel->create([
                     'post_id' => $parameters['postId'],
-                    'user_id' => Auth::id()
+                    'user_id' => Auth::id(),
                 ]);
                 $message = 'Like the story';
             }
@@ -133,6 +141,7 @@ class PostRepository implements PostRepositoryInterface
             return $this->helperClass->apiResponse(true, [], $message);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->helperClass->apiResponse(false, [], $e->getMessage());
         }
     }
@@ -164,6 +173,7 @@ class PostRepository implements PostRepositoryInterface
 
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->helperClass->apiResponse(false, [], $e->getMessage());
         }
     }
@@ -172,12 +182,12 @@ class PostRepository implements PostRepositoryInterface
     {
         try {
             DB::beginTransaction();
-            
+
             $comment = $this->postCommentModel->with('post')->findOrFail($parameters['commentId']);
 
             $userCanModify = [$comment->user_id, $comment->post->user_id];
-            
-            if (!in_array(Auth::id(), $userCanModify)) {
+
+            if (! in_array(Auth::id(), $userCanModify)) {
                 return $this->helperClass->apiResponse(false, [], 'You dont have access to modified this');
             }
 
@@ -188,8 +198,8 @@ class PostRepository implements PostRepositoryInterface
             return $this->helperClass->apiResponse(true, [], 'Comment has been deleted');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return $this->helperClass->apiResponse(false, [], $e->getMessage());
         }
     }
-    
 }

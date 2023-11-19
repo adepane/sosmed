@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     private AuthRepositoryInterface $authRepository;
+
     public $helperClass;
 
     public function __construct(AuthRepositoryInterface $authRepository)
@@ -18,31 +19,31 @@ class AuthController extends Controller
         $this->helperClass = new Helper;
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
-            'username'  => 'required',
-            'password'  => 'required'
+            'username' => 'required',
+            'password' => 'required',
         ]);
 
-        
         if ($validator->fails()) {
             return $this->helperClass->apiResponse(false, [], $validator->errors());
         }
-        
+
         $userOrEmail = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         return $this->authRepository->login($request->all(), $userOrEmail);
-   }
+    }
 
-   public function register(Request $request)
-   {
+    public function register(Request $request)
+    {
         $validator = Validator::make($request->all(), [
-            'first_name'      => 'required',
-            'last_name'      => 'required',
-            'username'     => 'required|unique:users',
-            'email'     => 'required|email|unique:users',
-            'password'  => 'required|min:8|confirmed'
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'username' => 'required|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8|confirmed',
         ]);
 
         if ($validator->fails()) {
@@ -50,6 +51,6 @@ class AuthController extends Controller
         }
 
         return $this->authRepository->register($request->all());
-        
-   }
+
+    }
 }
