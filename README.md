@@ -35,6 +35,13 @@ Postman details API
 https://documenter.getpostman.com/view/4929641/2s9Ye8faUq
 ```
 
+# Live Demo
+
+Live Demo address
+```
+https://sosmed.adepane.my.id
+```
+
 ## Instalation
 
 clone this repo
