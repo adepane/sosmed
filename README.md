@@ -5,21 +5,21 @@ This app only for serve REST API Using Laravel 10, this app is build like instag
 # Features
 
 - Auth
- - Register
- - Login
+  - Register
+  - Login
 - User
- - GET Profile
- - Update Profile
- - Followers / follows Detail
- - Search User
- - Follow / Unfollow
+  - GET Profile
+  - Update Profile
+  - Followers / follows Detail
+  - Search User
+  - Follow / Unfollow
 - Post / Story
- - Create story
-  - Multiple Images, Single Caption
- - Delete story
- - Like / Unlike
- - Comments
-  - 2 level indent, I use this concept to limit the indentation of hierarchy level from comments
+  - Create story
+    - Multiple Images, Single Caption
+  - Delete story
+  - Like / Unlike
+  - Comments
+    - 2 level indent, I use this concept to limit the indentation of hierarchy level from comments
 
 
 # Postman documentation
