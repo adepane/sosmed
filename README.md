@@ -75,14 +75,14 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-Install Passport
-```
-php artisan passport:install
-```
-
 Migrate all Database
 ```
 php artisan migrate
+```
+
+Install Passport
+```
+php artisan passport:install
 ```
 
 ## Change Passport Client ID Key in .env
