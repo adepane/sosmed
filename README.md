@@ -1,6 +1,10 @@
-## About
+# About
 
-This app only for serve REST API Using Laravel 10, this app is build like instagram model flow.
+This app only for serve REST API that build like instagram model flow.
+
+# Technology
+
+This app is build by using **Laravel 10 Framework** with **Repository Design Pattern** and **SOLID principles**.
 
 # Features
 
