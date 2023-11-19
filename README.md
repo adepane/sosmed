@@ -37,11 +37,11 @@ https://documenter.getpostman.com/view/4929641/2s9Ye8faUq
 
 clone this repo
 ```
-git clone https://github.com/adepane/sosmed.git "yourdirname"
+git clone https://github.com/adepane/sosmed.git
 ```
 
 ```
-cd yourdirname
+cd sosmed
 ```
 
 install all vendor
